@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = "APP_SECRET_KEY"
 Bootstrap(app)
 # totp = pyotp.TOTP("base32secret3232")
-hotp = pyotp.HOTP("base32secret3232")
+# hotp = pyotp.HOTP("base32secret3232")
 
 # homepage route
 @app.route("/")
@@ -26,6 +26,7 @@ def home():
 @app.route("/send_hotp", methods=['GET','POST'])
 def send_hotp():
 	# hotp method
+	hotp = pyotp.HOTP("base32secret3232")
 	counter = random.randint(100000,999999)
 	otp = hotp.at(counter)
 	session["o_counter"] = counter
@@ -36,6 +37,7 @@ def send_hotp():
 
 @app.route("/verify_hotp", methods=['GET','POST'])
 def verify_hotp():
+	hotp = pyotp.HOTP("base32secret3232")
 	if "o_counter" in session:
 		counter = session['o_counter']
 		if 'otp' in request.form:
